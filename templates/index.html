@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SatMap Tracker</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+  <style>
+    body { margin: 0; padding: 0; }
+    #map { height: 100vh; }
+    #info { position: absolute; top: 10px; left: 10px; background: #fff; padding: 8px; z-index: 1000; border-radius: 5px; }
+  </style>
+</head>
+<body>
+  <div id="info"><strong>Live ISS Location</strong><br><span id="timestamp"></span></div>
+  <div id="map"></div>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+    const map = L.map('map').setView([0, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      maxZoom: 19
+    }).addTo(map);
+
+    const icon = L.icon({
+      iconUrl: 'https://upload.wikimedia.org/wikipedia/commons/d/d0/International_Space_Station.svg',
+      iconSize: [50, 50]
+    });
+
+    const marker = L.marker([0, 0], {icon}).addTo(map);
+
+    async function updateLocation() {
+      const res = await fetch('/iss-location');
+      const data = await res.json();
+      marker.setLatLng([data.latitude, data.longitude]);
+      map.setView([data.latitude, data.longitude], 3);
+      document.getElementById("timestamp").textContent = data.timestamp;
+    }
+
+    setInterval(updateLocation, 5000);
+    updateLocation();
+  </script>
+</body>
+</html>
