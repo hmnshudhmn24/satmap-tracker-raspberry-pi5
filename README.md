@@ -53,20 +53,8 @@ http://<your-pi-ip>:6060
 - The frontend (HTML/JS) renders a Leaflet map and places a satellite icon marker.
 - Location is updated every 5 seconds with a timestamp.
 
-## 📸 Screenshot
-
-![Screenshot](preview.png)
-
 ## 🛠️ Optional Enhancements
 
 - Add tracking for custom satellites using TLE data
 - Show orbit trail using recent position logs
 - Deploy in kiosk mode using Chromium for mirror-like display
-
-## 📜 License
-
-MIT License
-
----
-
-Built with 🚀 and Raspberry Pi 5
